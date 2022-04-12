@@ -1,0 +1,50 @@
+SELECT name FROM student WHERE age = 15 
+SELECT salary FROM teacher WHERE name = ''zhangsan'' 
+SELECT location FROM school 
+SELECT DISTINCT schedule FROM work WHERE location = ''Austrailia'' 
+SELECT DISTINCT age, name, hobby FROM student WHERE weight > 50 AND age > 15 
+SELECT name FROM student ORDER BY freetime ASC
+SELECT name FROM student WHERE weight = 50 
+SELECT DISTINCT name, age, hobby FROM student WHERE weight > 50 ORDER BY age ASC
+SELECT DISTINCT salary FROM teacher WHERE name = ''zhangsan'' AND course = ''math'' 
+SELECT DISTINCT salary, number FROM teacher WHERE name = ''zhangsan'' ORDER BY name DESC
+SELECT DISTINCT salary FROM teacher WHERE name = ''zhangsan'' 
+SELECT DISTINCT location FROM school 
+SELECT DISTINCT * FROM work WHERE location = ''Austrailia'' 
+SELECT DISTINCT * FROM work 
+SELECT name FROM password WHERE age = 15 
+DELETE FROM student WHERE age < 9 
+DELETE FROM teacher WHERE age = 9 
+DELETE FROM teacher WHERE age >= 9 
+DELETE FROM school WHERE name != ''zhangsan'' 
+DELETE FROM student WHERE age > 15 AND height > 180 
+DELETE FROM work 
+DELETE FROM work 
+DELETE FROM school WHERE level = ''Primary'' AND Position = ''England'' 
+DELETE FROM school WHERE level = ''Primary'' AND Position = ''England'' 
+INSERT INTO student VALUES (''Jim'', 22, ''game'', 100, 175)
+INSERT INTO student VALUES ()
+INSERT INTO teacher VALUES (''lixiang'', 4200)
+UPDATE work SET location= ''china'', strength= ''weak''
+UPDATE student SET hobby= ''sing'', age=  20   WHERE name = ''Jim'' AND hobby = ''game''  
+UPDATE work SET  WHERE location = ''china'' AND strength = ''weak''  
+UPDATE work SET 
+SELECT teacher.name, school.name FROM teacher FULL JOIN school ON teacher.location = school.location
+SELECT teacher.name, school.name FROM teacher LEFT JOIN student ON teacher.hobby = student.hobby
+SELECT teacher.name, school.name FROM teacher RIGHT JOIN school ON teacher.location = school.location
+SELECT teacher.name, school.name, teacher.course FROM teacher INNER JOIN school ON teacher.location = school.location AND teacher.salary = school.alary
+SELECT teacher.name, school.name, teacher.course FROM teacher INNER JOIN school ON teacher.location = school.location AND teacher.salary = school.alary
+SELECT *FROM teacher FULL JOIN school ON 
+SELECT *FROM teacher FULL JOIN school ON teacher.name = school.teacher
+SELECT teacher.name, school.name FROM teacher FULL JOIN school ON 
+SELECT work.name, school.name FROM teacher FULL JOIN school ON teacher.location = school.location
+SELECT teacher.name, work.name FROM teacher LEFT JOIN school ON teacher.location = school.location
+SELECT teacher.name, school.name FROM teacher FULL JOIN school ON teacher.location = work.location
+SELECT teacher.name FROM teacher FULL JOIN teacher ON teacher.location = teacher.location
+SELECT name,age,hobby FROM student WHERE height IN (SELECT height FROM student WHERE weight = 150 )
+SELECT name,gender,age FROM teacher WHERE salary,number IN (SELECT DISTINCT salary, number FROM teacher WHERE name = ''zhangsan'' ORDER BY name DESC)
+SELECT name,gender FROM teacher WHERE salary IN (SELECT DISTINCT salary FROM teacher WHERE name = ''zhangsan'' ORDER BY salary ASC)
+SELECT name,hobby FROM teacher WHERE studentTaught IN (SELECT name FROM student WHERE score > 90 )
+SELECT *  FROM teacher WHERE studentTaught IN (SELECT name FROM student WHERE score > 90 )
+SELECT *  FROM work WHERE  IN (SELECT DISTINCT * FROM work )
+SELECT location,strength FROM work WHERE  IN (SELECT DISTINCT * FROM work )

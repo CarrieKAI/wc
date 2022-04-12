@@ -1,0 +1,112 @@
+grammar uk.ac.kcl.inf.group19.easySql.EasySql with org.eclipse.xtext.common.Terminals
+
+generate easySql "http://www.ac.uk/kcl/inf/group19/easySql/EasySql"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+SqlProgram:
+	statements += Statement *
+;
+	
+Statement:
+	 QueryStatement| ManipulateStatement| TableDeclaration | SingleSelectDeclaration
+;
+	
+QueryStatement:
+	SimpleSelectQuery|
+	JoinQuery |
+	NestedQuery
+;
+
+ManipulateStatement:
+	Insert|
+	Update|
+	Delete
+;
+
+MultiType:
+	 StrLiteral| RinLiteral| NumLiteral
+;
+
+NumLiteral:
+	var =INT
+;
+
+StrLiteral:
+	var =ID
+;
+
+RinLiteral:
+	var = STRING
+;
+
+//Including various operators：>   <    >=    <=   !=   = 
+enum Operator:
+    va = '>'  |  vb = '<' |  vc = '>=' |  vd = '<=' | ve ='!='  | vf = '='
+;
+
+
+enum Join:
+	 left_join | right_join | full_join | inner_join
+;
+
+TableDeclaration:
+	'Table'  name = ID  
+;
+
+//Assign a simple query to a variable
+SingleSelectDeclaration:
+	'var' name =ID "="  singleSelect =SimpleSelectQuery
+;
+
+
+//representing an attribute or a value
+Value:
+	value = MultiType  (separation +=',')*
+;
+
+Equation:
+	attribute = ID operator =Operator value=MultiType (separation +=',')*
+;
+
+//representing a form likes: Table.attribute
+Vvalue:
+	table = [TableDeclaration] '-' attribute =MultiType   (separation +=',')*
+;
+
+//Set connection conditions when connecting multiple tables:   table1.attribute1 = table2.attribute2
+MultiEquation:
+	EquationLeft =Vvalue  operator =Operator EquationRight =Vvalue  
+;
+
+//Is it in ascending or descending order
+enum Order:
+	ascending | descending
+;
+
+
+Insert:
+	table =[TableDeclaration] '.Insert(' insert_data += Value*  ')'
+;
+
+Update:
+	table =[TableDeclaration] '.Update(' modification+= Equation* ')'  '.Condition(' updatecondition+= Equation*  ')'
+;
+
+Delete:
+	table =[TableDeclaration]  '.Delete(' deletecondition+= Equation* ')'
+;
+
+
+SimpleSelectQuery:
+	Stable =[TableDeclaration]  '.Search(' (Sattributes+= Value)* ')' '.Condition('(simplecondition+= Equation)*')'  (removeDup +='.RemoveDuplication()')? ("." ordertype =Order "(" (SCattributes+= Value)* ")" )?
+;
+
+
+JoinQuery:
+	Jtable1 =[TableDeclaration] '.Joinsearch(' (Jattributes+= Vvalue)*  ')' '.' jointype=Join '(' Jtable2 =[TableDeclaration] ')' '.On(' (joincondition+= MultiEquation)* ')'
+;
+
+
+NestedQuery:
+	Ntable = [TableDeclaration] '.Subsearch('  Nattributes+= Value* ')' '.When(' Nattributes1 += Value* ')' '.In('  subselectquery =[SingleSelectDeclaration] ')'
+;
+

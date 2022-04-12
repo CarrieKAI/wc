@@ -1,0 +1,82 @@
+//Table Declaration
+Table student
+Table teacher
+Table school
+Table work
+Table Life
+Table ANIMAL
+Table distinct
+Table password
+Table work
+Table abcdefghijklmnopqrstu
+
+//Single Selection Query
+student.Search(name).Condition(age=15)
+teacher.Search(salary).Condition(name = zhangsan)
+school.Search(location).Condition()
+work.Search(schedule).Condition(location = Austrailia).RemoveDuplication()
+student.Search(age,name,hobby).Condition(weight>50,age>15).RemoveDuplication()
+student.Search(name).Condition().ascending(freetime)
+student.Search(name).Condition(weight=50).ascending()
+student.Search(name,age,hobby).Condition(weight>50).RemoveDuplication().ascending(age)
+teacher.Search(salary).Condition(name = zhangsan,course=math).RemoveDuplication().ascending()
+teacher.Search(salary,number).Condition(name = zhangsan).RemoveDuplication().descending(name)
+teacher.Search(salary).Condition(name = zhangsan).RemoveDuplication().descending()
+school.Search(location).Condition().RemoveDuplication()
+work.Search().Condition(location = Austrailia).RemoveDuplication()
+work.Search().Condition().RemoveDuplication()
+password.Search(name).Condition(age=15)
+
+//Delete operation 
+student.Delete(age<9)
+teacher.Delete(age=9)
+teacher.Delete(age>=9)
+school.Delete(name!=zhangsan)
+student.Delete(age>15, height>180)
+work.Delete()
+work.Delete()
+school.Delete(level=Primary, Position=England)
+school.Delete(level=Primary, Position=England)
+
+
+//Insert operation
+student.Insert(Jim,22,game,100,175)
+student.Insert()
+teacher.Insert(lixiang,4200)
+
+//Update operation
+work.Update(location=china,strength=weak).Condition()
+student.Update(hobby=sing,age=20).Condition(name=Jim,hobby=game)
+work.Update().Condition(location=china,strength=weak)
+work.Update().Condition()
+
+//Join Query 
+teacher.Joinsearch(teacher-name, school-name).full_join(school).On(teacher-location=school-location)
+teacher.Joinsearch(teacher-name, school-name).left_join(student).On(teacher-hobby=student-hobby)
+teacher.Joinsearch(teacher-name, school-name).right_join(school).On(teacher-location=school-location)
+teacher.Joinsearch(teacher-name, school-name,teacher-course).inner_join(school).On(teacher-location=school-location,teacher-salary=school-alary)
+teacher.Joinsearch(teacher-name, school-name,teacher-course).inner_join(school).On(teacher-location=school-location,teacher-salary=school-alary)
+teacher.Joinsearch().full_join(school).On()
+teacher.Joinsearch().full_join(school).On(teacher-name=school-teacher)
+teacher.Joinsearch(teacher-name, school-name).full_join(school).On()
+teacher.Joinsearch(work-name, school-name).full_join(school).On(teacher-location=school-location)
+teacher.Joinsearch(teacher-name, work-name).left_join(school).On(teacher-location=school-location)
+teacher.Joinsearch(teacher-name, school-name).full_join(school).On(teacher-location=work-location)
+teacher.Joinsearch(teacher-name).full_join(teacher).On(teacher-location=teacher-location)
+
+
+//Single Selection Declaration
+var selection1 = student.Search(height).Condition(weight=150)
+var selection2 = teacher.Search(salary,number).Condition(name = zhangsan).RemoveDuplication().descending(name)
+var selection3 = teacher.Search(salary).Condition(name = zhangsan).RemoveDuplication().ascending(salary)
+var selection4 = work.Search().Condition().RemoveDuplication()
+var selection5 = student.Search(name).Condition(score>90)
+
+//Nested Query
+student.Subsearch(name,age,hobby).When(height).In(selection1)
+teacher.Subsearch(name,gender,age).When(salary,number).In(selection2)
+teacher.Subsearch(name,gender).When(salary).In(selection3)
+teacher.Subsearch(name,hobby).When(studentTaught).In(selection5)
+teacher.Subsearch().When(studentTaught).In(selection5)
+work.Subsearch().When().In(selection4) 
+work.Subsearch(location,strength).When().In(selection4) 
