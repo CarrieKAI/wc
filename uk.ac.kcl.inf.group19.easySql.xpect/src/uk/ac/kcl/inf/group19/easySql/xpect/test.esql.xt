@@ -45,6 +45,7 @@ Table work
 
 
 //Single Selection Query
+//XPECT scope at student -->school, student, teacher, work
 student.Search(name).Condition(age=15)
 teacher.Search(salary).Condition(name = zhangsan)
 school.Search(location).Condition()
@@ -61,6 +62,7 @@ work.Search().Condition(location = Austrailia).RemoveDuplication()
 work.Search().Condition().RemoveDuplication()
 
 //Delete operation 
+//XPECT scope at teacher --> school, student, teacher, ...
 student.Delete(age<9)
 teacher.Delete(age=9)
 teacher.Delete(age>=9)
